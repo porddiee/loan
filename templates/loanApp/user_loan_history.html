@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load dict_extras %}
+
+
+{% block block_js %}
+<script>
+
+</script>
+{% endblock %}
+
+
+{% block css_block %}
+<style>
+    .page-title {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        font-weight: 500;
+        border: none;
+        padding: 1rem;
+    }
+
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+    }
+
+    .table tbody tr {
+        transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(37, 99, 235, 0.05);
+    }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-transform: capitalize;
+    }
+
+    .status-pending {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-approved {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .amount {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .date {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+<div class="container my-5">
+    <h1 class="page-title">Loan Request History</h1>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">SL</th>
+                    <th scope="col">Loan ID</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Collateral</th>
+                    <th scope="col">Request Amount</th>
+                    <th scope="col">Request Date</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Remaining Loan Amount</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loans %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{loan.id}}</td>
+                    <td>{{loan.customer.id}}</td>
+                    <td>{{loan}}</td>
+                    <td>
+                        <span class="status-badge status-{{loan.status|lower}}">
+                            {{loan.status}}
+                        </span>
+                    </td>
+                    <td>{{loan.category}}</td>
+                    <td>{{loan.collateral|default:'None'}}</td>
+                    <td class="amount">₱{{loan.amount}}</td>
+                    <td class="date">{{loan.request_date}}</td>
+                    <td>{{loan.duration_value}} {{loan.duration_type}}</td>
+                    <td>
+                        {% if loan.status == 'approved' %}
+                            ₱{{ loan_remaining|default_if_none:0|dict_get:loan.id }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if loan.status == 'approved' %}
+                            <a href="{% url 'loanApp:loan_payment' %}" class="btn btn-success btn-sm">Pay</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{loan.customer.email}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

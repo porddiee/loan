@@ -1,0 +1,202 @@
+{% load static %}
+
+<footer class="bg-white py-5 mt-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4" data-aos="fade-up">
+                <div class="footer-brand d-flex align-items-center mb-3">
+                    <i class="fas fa-landmark text-primary me-2"></i>
+                    <span class="fw-bold fs-4">Loan Management</span>
+                </div>
+                <p class="text-muted mb-4">A comprehensive loan management system that helps you track, manage, and optimize your loans efficiently.</p>
+                <div class="social-links">
+                    <a href="#" class="text-decoration-none me-3" data-aos="zoom-in" data-aos-delay="100">
+                        <i class="fab fa-facebook-f text-primary"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none me-3" data-aos="zoom-in" data-aos-delay="200">
+                        <i class="fab fa-twitter text-primary"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none me-3" data-aos="zoom-in" data-aos-delay="300">
+                        <i class="fab fa-linkedin-in text-primary"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none" data-aos="zoom-in" data-aos-delay="400">
+                        <i class="fab fa-instagram text-primary"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <h5 class="fw-bold mb-3">Quick Links</h5>
+                <ul class="list-unstyled footer-links">
+                    <li class="mb-2">
+                        <a href="{% url 'home' %}" class="text-decoration-none text-muted hover-link">
+                            <i class="fas fa-chevron-right me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'loanApp:loan_request' %}" class="text-decoration-none text-muted hover-link">
+                            <i class="fas fa-chevron-right me-2"></i>Apply Loan
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'loanApp:view_loan_status' %}" class="text-decoration-none text-muted hover-link">
+                            <i class="fas fa-chevron-right me-2"></i>Loan Status
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'loanApp:user_loan_history' %}" class="text-decoration-none text-muted hover-link">
+                            <i class="fas fa-chevron-right me-2"></i>Loan History
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <h5 class="fw-bold mb-3">Contact Info</h5>
+                <ul class="list-unstyled footer-links">
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                        <span class="text-muted">123 Loan Street, Financial District, NY 10001</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fas fa-phone text-primary me-3"></i>
+                        <span class="text-muted">+1 (555) 123-4567</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fas fa-envelope text-primary me-3"></i>
+                        <span class="text-muted">support@loanmanagement.com</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <h5 class="fw-bold mb-3">Newsletter</h5>
+                <p class="text-muted mb-3">Subscribe to our newsletter for updates and offers.</p>
+                <form class="newsletter-form">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Enter your email" aria-label="Email address">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="text-muted mb-0">&copy; 2024 Loan Management System. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted me-3 hover-link">Privacy Policy</a>
+                <a href="#" class="text-decoration-none text-muted me-3 hover-link">Terms of Service</a>
+                <a href="#" class="text-decoration-none text-muted hover-link">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer-links a {
+        transition: all 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: var(--primary-color) !important;
+        transform: translateX(5px);
+    }
+
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: rgba(37, 99, 235, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+        background-color: var(--primary-color);
+        transform: translateY(-3px);
+    }
+
+    .social-links a:hover i {
+        color: white !important;
+    }
+
+    .newsletter-form .form-control {
+        border: 2px solid #e2e8f0;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem 0 0 0.5rem;
+    }
+
+    .newsletter-form .btn {
+        border-radius: 0 0.5rem 0.5rem 0;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .newsletter-form .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: none;
+    }
+
+    .hover-link {
+        position: relative;
+    }
+
+    .hover-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary-color);
+        transition: width 0.3s ease;
+    }
+
+    .hover-link:hover::after {
+        width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .footer-brand {
+            justify-content: center;
+        }
+        
+        .social-links {
+            text-align: center;
+        }
+        
+        .footer-links {
+            text-align: center;
+        }
+        
+        .footer-links li {
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    // Newsletter form submission
+    document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value;
+        if (email) {
+            // Add your newsletter subscription logic here
+            this.querySelector('input[type="email"]').value = '';
+            alert('Thank you for subscribing to our newsletter!');
+        }
+    });
+
+    // Animate social links on hover
+    document.querySelectorAll('.social-links a').forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+</script>

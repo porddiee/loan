@@ -1,0 +1,174 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load static %}
+
+
+{% block block_js %}
+<script>
+
+</script>
+{% endblock %}
+
+
+{% block css_block %}
+<style>
+    .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        font-weight: 500;
+        padding: 1rem;
+        border: none;
+    }
+
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .status-pending {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-approved {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-action {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-approve {
+        background-color: #10b981;
+        color: white;
+    }
+
+    .btn-approve:hover {
+        background-color: #059669;
+        transform: translateY(-2px);
+    }
+
+    .btn-reject {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .btn-reject:hover {
+        background-color: #dc2626;
+        transform: translateY(-2px);
+    }
+
+    .amount {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .date {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h1 class="page-title">Loan Requests</h1>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Amount</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
+                    <th>Duration</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loanrequest %}
+                <tr>
+                    <td>{{loan.customer}}</td>
+                    <td class="amount">₱{{loan.amount}}</td>
+                    <td class="date">{{loan.request_date}}</td>
+                    <td>
+                        {% if loan.status == 'pending' %}
+                        <span class="status-badge status-pending">Pending</span>
+                        {% elif loan.status == 'approved' %}
+                        <span class="status-badge status-approved">Approved</span>
+                        {% else %}
+                        <span class="status-badge status-rejected">Rejected</span>
+                        {% endif %}
+                    </td>
+                    <td>{{loan.duration_value}} {{loan.duration_type}}</td>
+                    <td>
+                        <div class="action-buttons">
+                            {% if loan.status == 'pending' %}
+                            <a href="{% url 'managerApp:approved_request' loan.id %}" class="btn btn-action btn-approve">
+                                <i class="fas fa-check"></i> Approve
+                            </a>
+                            <a href="{% url 'managerApp:rejected_request' loan.id %}" class="btn btn-action btn-reject">
+                                <i class="fas fa-times"></i> Reject
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

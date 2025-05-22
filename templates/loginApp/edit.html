@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block body_block %}
+
+<div class="container my-5">
+
+    <div class="row">
+        <div class="p-5 m-auto my-5 rounded shadow-lg col-md-6 bg-body">
+            <h3 class="text-center text-success">Update Your Information </h3>
+            <form method="POST" class="my-5" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="mb-4 row">
+                    <div class="col">
+                        <div class="form-outline">
+                            {% render_field form.first_name type="text" class="form-control" %}
+                            <label class="form-label" for="form6Example1">First name</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-outline">
+                            {% render_field form.last_name type="text" class="form-control" %}
+
+                            <label class="form-label" for="form6Example2">Last name</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input -->
+                <div class="mb-4 form-outline">
+                    {% render_field form.designation type="text" class="form-control" %}
+
+                    <label class="form-label" for="form6Example3">Designation</label>
+                </div>
+
+                <!-- Text input -->
+                <div class="mb-4 form-outline">
+                    {% render_field form.address class="form-control" placeholder="e.g., Manila, Philippines" %}
+                    <label class="form-label">Address</label>
+                </div>
+
+                <!-- Email input -->
+                <div class="mb-4 form-outline">
+                    {% render_field form.email type="email" class="form-control" %}
+
+                    <label class="form-label">Email</label>
+                </div>
+
+                <!-- Image Field  Input-->
+                <div class="mb-4 form-outline">
+                    <label class="form-label">Profile Picture</label>
+                    {% if form.instance.profile_picture %}
+                    <div class="mb-2">
+                        <img src="{{form.instance.get_profile_picture_url}}" 
+                             alt="Current Profile Picture" 
+                             height="100px" 
+                             width="100px" 
+                             class="rounded-circle" 
+                             onerror="this.onerror=null; this.src='{% static 'images/default-profile.png' %}';" />
+                    </div>
+                    {% endif %}
+                    {% render_field form.profile_picture type="file" class="form-control" accept="image/*" %}
+                </div>
+
+
+                <!-- Number input -->
+                <div class="mb-4 form-outline">
+                    {% render_field form.phone type="number" class="form-control" %}
+
+                    <label class="form-label">Phone</label>
+                </div>
+
+                <!-- Message input -->
+                <div class="mb-4 form-outline">
+                    {% render_field form.information rows="4" class="form-control" %}
+
+                    <label class="form-label">Additional information</label>
+                </div>
+
+                <!-- Checkbox -->
+                <div class="mb-4 form-check d-flex justify-content-center">
+                    <input class="form-check-input me-2" type="checkbox" value="" checked />
+                    <label class="form-check-label"> Update account details? </label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Update Account</button>
+            </form>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'admin/adminbase.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title_block %}
+User Login
+{% endblock %}
+
+{% block body_block %}
+<div class="container my-5">
+    <div class="row">
+        <div class="p-5 m-auto rounded shadow-lg col-md-4 bg-body">
+            <h3 class="text-center text-success">Admin Login</h3>
+            <form method="POST" class="my-5">
+                {% csrf_token %}
+                {% if error %}
+                <div class="my-2">
+                    <div class="row">
+                        <div class="m-auto col">
+                            <div class="text-center alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="mb-4 form-outline">
+                    {% render_field form.username|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Username</label>
+                </div>
+                <div class="mb-4 form-outline">
+                    {% render_field form.password|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Password</label>
+                </div>
+                <div class="mb-4 row ">
+                    <div class="col">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" checked />
+                            <label class="form-check-label"> Remember me </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <a href="#!">Forgot password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Sign in</button>
+                <div class="text-center">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-github"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('adminSidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const mainContent = document.querySelector('.main-content');
+    // Ensure sidebar is visible on load
+    sidebar.classList.remove('sidebar-hidden');
+    toggleBtn.classList.remove('sidebar-hidden');
+    mainContent.style.marginLeft = 'var(--sidebar-width)';
+    function setSidebarState(hidden) {
+        if (hidden) {
+            sidebar.classList.add('sidebar-hidden');
+            toggleBtn.classList.add('sidebar-hidden');
+            mainContent.style.marginLeft = '0';
+        } else {
+            sidebar.classList.remove('sidebar-hidden');
+            toggleBtn.classList.remove('sidebar-hidden');
+            mainContent.style.marginLeft = 'var(--sidebar-width)';
+        }
+    }
+    toggleBtn.addEventListener('click', function() {
+        setSidebarState(!sidebar.classList.contains('sidebar-hidden'));
+    });
+});
+</script>

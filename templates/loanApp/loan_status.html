@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+Loan Status - Loan Management System
+{% endblock %}
+
+{% block css_block %}
+<style>
+    .status-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+
+    .status-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-approved {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .loan-details {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .loan-amount {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+</style>
+{% endblock %}
+
+{% block body_block %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="fw-bold mb-3" data-aos="fade-up">Your Loan Status</h2>
+            <p class="text-muted" data-aos="fade-up" data-aos-delay="100">Track the status of all your loan applications</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% if loans %}
+            {% for loan in loans %}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                    <div class="card status-card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title mb-0">Loan #{{ loan.id }}</h5>
+                                <span class="status-badge status-{{ loan.status|lower }}">
+                                    {{ loan.status|title }}
+                                </span>
+                            </div>
+                            <div class="loan-details mb-3">
+                                <p class="mb-2">
+                                    <i class="fas fa-calendar-alt me-2"></i>
+                                    Requested on: {{ loan.request_date|date:"F d, Y" }}
+                                </p>
+                                {% if loan.status_date %}
+                                    <p class="mb-2">
+                                        <i class="fas fa-clock me-2"></i>
+                                        Updated on: {{ loan.status_date|date:"F d, Y" }}
+                                    </p>
+                                {% endif %}
+                                <p class="mb-2">
+                                    <i class="fas fa-tag me-2"></i>
+                                    Category: {{ loan.category.loan_name }}
+                                </p>
+                                <p class="mb-2">
+                                    <i class="fas fa-clock me-2"></i>
+                                    Duration: {{ loan.duration_value }} {{ loan.duration_type|title }}
+                                </p>
+                                <p class="mb-2">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    Collateral: {{ loan.collateral|default:'No collateral provided.' }}
+                                </p>
+                            </div>
+                            <div class="loan-amount mb-3">
+                                ₱{{ loan.amount|floatformat:2 }}
+                            </div>
+                            <p class="card-text">
+                                <i class="fas fa-info-circle me-2"></i>
+                                {{ loan.reason }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12" data-aos="fade-up">
+                <div class="card status-card">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-file-invoice-dollar text-muted mb-3" style="font-size: 3rem;"></i>
+                        <h4 class="mb-3">No Loan Applications Found</h4>
+                        <p class="text-muted mb-4">You haven't applied for any loans yet.</p>
+                        <a href="{% url 'loanApp:loan_request' %}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Apply for a Loan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

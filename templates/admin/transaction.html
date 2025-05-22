@@ -1,0 +1,130 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load static %}
+{% load dict_extras %}
+
+
+
+
+
+{% block css_block %}
+<style>
+    .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        font-weight: 500;
+        padding: 1rem;
+        border: none;
+    }
+
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .transaction-type {
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .type-payment {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .type-loan {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+
+    .amount {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .date {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+
+    .customer-name {
+        font-weight: 500;
+        color: #1f2937;
+    }
+
+    .customer-email {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h1 class="page-title">Transaction History</h1>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Remaining Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>
+                        <div class="customer-name">{{transaction.customer}}</div>
+                        <div class="customer-email">{{transaction.customer.user.email}}</div>
+                    </td>
+                    <td>
+                        <span class="transaction-type type-payment">Payment</span>
+                    </td>
+                    <td class="amount">₱{{transaction.payment}}</td>
+                    <td class="date">{{transaction.payment_date}}</td>
+                    <td>
+                        ₱{{ remaining_amounts|dict_get:transaction.transaction }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

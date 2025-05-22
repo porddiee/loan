@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block css_block %}
+<style>
+    #second-part {
+        margin: auto;
+    }
+
+    .status {
+        border-radius: 1rem;
+        color: white;
+        margin: 1rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+
+    .status:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    #digit {
+        font-size: 2.5rem;
+        font-weight: 600;
+        text-align: end;
+        margin-top: 0.5rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .dashboard-title {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .status h3 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .status-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block body_block %}
+<div class="container p-5 my-5">
+    <h1 class="dashboard-title">User Dashboard</h1>
+    <div id="second-part">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="status" style="background: linear-gradient(135deg, #4ea4f0 0%, #3b82f6 100%)">
+                    <i class="fas fa-file-invoice-dollar status-icon"></i>
+                    <h3>Loan Request</h3>
+                    <h1><span id="digit">{{request}}</span></h1>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="status" style="background: linear-gradient(135deg, #a64cf0 0%, #8b5cf6 100%)">
+                    <i class="fas fa-check-circle status-icon"></i>
+                    <h3>Loan Approved</h3>
+                    <h1><span id="digit">{{approved}}</span></h1>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="status" style="background: linear-gradient(135deg, #4c4ff0 0%, #6366f1 100%)">
+                    <i class="fas fa-times-circle status-icon"></i>
+                    <h3>Loan Rejected</h3>
+                    <h1><span id="digit">{{rejected}}</span></h1>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="status" style="background: linear-gradient(135deg, #90ED7D 0%, #10b981 100%)">
+                    <i class="fas fa-money-bill-wave status-icon"></i>
+                    <h3>Payable Loan</h3>
+                    {% if totalPayable %}
+                    <h1><span id="digit">₱{{ totalPayable|sub:0 }}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">₱0</span></h1>
+                    {% endif %}
+                    <div class="mt-3 text-center">
+                        <a href="{% url 'loanApp:loan_payment' %}" class="btn btn-success btn-lg w-100">
+                            <i class="fas fa-money-bill-wave"></i> Pay Loan
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="status" style="background: linear-gradient(135deg, #FF7599 0%, #f43f5e 100%)">
+                    <i class="fas fa-hand-holding-usd status-icon"></i>
+                    <h3>Approved Loan</h3>
+                    {% if totalLoan %}
+                    <h1><span id="digit">₱{{totalLoan|sub:0}}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">₱0</span></h1>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="status" style="background: linear-gradient(135deg, #EF5350 0%, #dc2626 100%)">
+                    <i class="fas fa-receipt status-icon"></i>
+                    <h3>Total Paid Loan</h3>
+                    {% if totalPaid %}
+                    <h1><span id="digit">₱{{totalPaid|sub:0}}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">₱0</span></h1>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="status" style="background: linear-gradient(135deg, #42A5F5 0%, #2563eb 100%)">
+                    <i class="fas fa-balance-scale status-icon"></i>
+                    <h3>Total Due Loan</h3>
+                    {% if totalPayable or totalPaid %}
+                    <h1><span id="digit">₱{{ totalPayable|sub:totalPaid }}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">₱0</span></h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
